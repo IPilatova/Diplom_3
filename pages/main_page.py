@@ -1,5 +1,4 @@
 import allure
-import time
 
 from pages.base_page import BasePage
 from locators.main_page_lct import MainPageLocators
@@ -61,15 +60,12 @@ class MainPage(BasePage):
         self.click_on_element(MainPageLocators.CONFIRM_ORDER_BUTTON)
 
     @allure.step('Получить номер заказа')
-    def get_order_id(self, timeout=10):
+    def get_order_id(self):
         self.check_element_displayed(MainPageLocators.ORDER_ID)
-        start_time = time.time()
-        while True:
-            order_id = self.get_element_text(MainPageLocators.ORDER_ID)
-            if order_id != '9999':
-                return order_id
-            if time.time() - start_time > timeout:
-                raise Exception(f'Order ID did not update from "9999" within {timeout} seconds.')
+        self.wait.until(
+            lambda _: self.get_element_text(MainPageLocators.ORDER_ID) != '9999'
+        )
+        return self.get_element_text(MainPageLocators.ORDER_ID)
 
     @allure.step('Закрыть попап создания заказа')
     def click_close_popup_order(self):
