@@ -20,7 +20,7 @@ class OrderFeedPage(BasePage):
         for element in elements:
             if order_id == element.text:
                 return True
-        return True
+        return False
 
     @allure.step('Проверить наличие созданного заказа в разделе "История заказов"')
     def order_id_found_in_history_orders(self, order_number):
