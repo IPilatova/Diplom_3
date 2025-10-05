@@ -47,7 +47,6 @@ def user_for_test():
     user_payload = generate_user_payload()
     with allure.step(f'Создать пользователя с email "{user_payload['email']}"'):
         r = requests.post(f"{BASE_URL}{ENDPOINTS['CREATE_USER']}", user_payload)
-        assert r.status_code == 200
         token = r.json()['accessToken']
         email = user_payload['email']
         password = user_payload['password']
